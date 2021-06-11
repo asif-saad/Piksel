@@ -10,51 +10,151 @@
         android:id="@+id/AppbarProfile"
         layout="@layout/toolbar2" />
 
-
-    <ImageView
-        android:id="@+id/PhotoProfile"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_below="@id/AppbarProfile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/profile" />
-
-    <TextView
-        android:id="@+id/NameProfile"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/PhotoProfile"
-        android:layout_marginLeft="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textAlignment="center"
-        android:text="demo text"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/AppbarProfile">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:id="@+id/PhotoProfile"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/profile" />
+
+            <TextView
+                android:id="@+id/NameProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="10dp"
+                android:text="demo text"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
-    <TextView
-        android:id="@+id/EmailProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/NameProfile"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:textAlignment="center"
-        android:text="demo too"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:id="@+id/EmailProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="demo too"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <Button
-        android:id="@+id/EditProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/EmailProfile"
-        android:layout_centerHorizontal="true"
-        android:elevation="10dp"
-        android:shadowRadius="10"
-        android:text="Edit Profile"
-        android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/EditProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:elevation="10dp"
+                android:shadowRadius="10"
+                android:text="Edit Profile"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/ChoosePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="choose photos"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+
+            <ImageView
+                android:id="@+id/ImageviewUploadProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/add_photo" />
+
+            <EditText
+                android:id="@+id/PricePhotoProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:elevation="10dp"
+                android:hint="Price"
+                android:inputType="number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+            <ProgressBar
+                android:id="@+id/Progressbar_BucketImageProfile"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/UploadButtonProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="#76FD00"
+                android:shadowRadius="10"
+                android:text="Upload photo"
+                android:textColor="#070707" />
+
+
+            <TextView
+                android:id="@+id/ChooseVideoProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="choose videos"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+            <ImageView
+                android:id="@+id/VideoUploadProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/add_video" />
+
+            <ProgressBar
+                android:id="@+id/Progressbar_BucketVideoProfile"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <Button
+                android:id="@+id/LogoutProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="#FF1A1A"
+                android:shadowRadius="10"
+                android:text="Log Out"
+                android:textAlignment="center"
+                android:textColor="#ffffff" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>

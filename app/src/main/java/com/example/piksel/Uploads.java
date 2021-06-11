@@ -7,7 +7,7 @@ public class Uploads {
     private int like = 0;
     private float askedPrice;
     private float highestBid = 0;
-    private String HighestID = null;
+    private String HighestID = "-1";
 
 
 

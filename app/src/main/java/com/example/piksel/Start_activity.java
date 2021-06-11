@@ -2,6 +2,7 @@ package com.example.piksel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
@@ -23,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Start_activity extends AppCompatActivity{
 
     private CircleImageView profile;
+    private Toolbar toolbar;
 
 
 
@@ -33,6 +35,7 @@ public class Start_activity extends AppCompatActivity{
         setContentView(R.layout.activity_start);
 
         profile=findViewById(R.id.Toolbar_Profile);
+        toolbar=findViewById(R.id.Toolbar);
 
 
         BottomNavigationView bottomNav=findViewById(R.id.BottomNavigationBar);
@@ -65,13 +68,16 @@ public class Start_activity extends AppCompatActivity{
             {
                 case R.id.nav_photoLibrary:
                     getSupportFragmentManager().beginTransaction().replace(R.id.Fragment_container,new photos_fragment()).commit();
+                    toolbar.setTitle("Photo Library");
                     return true;
                 case R.id.nav_videoLibrary:
                     getSupportFragmentManager().beginTransaction().replace(R.id.Fragment_container,new videos_fragment()).commit();
+                    toolbar.setTitle("Video Library");
                     return true;
 
                 case R.id.nav_bucket:
                     getSupportFragmentManager().beginTransaction().replace(R.id.Fragment_container,new buckets_fragment()).commit();
+                    toolbar.setTitle("Bucket");
                     return true;
             }
             return false;

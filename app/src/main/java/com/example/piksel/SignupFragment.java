@@ -126,7 +126,7 @@ public class SignupFragment extends Fragment {
                                 user.put("Name", name);
                                 user.put("Email", email);
                                 user.put("Password", password);
-                                user.put("Profile_photo",null);
+                                user.put("Profile_photo","-1");
 
                                 documentReference.set(user);
 
