@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_photoLibrary"
+        android:icon="@drawable/photo_library"
+        android:title="Photo" />
+    <item
+        android:id="@+id/nav_videoLibrary"
+        android:icon="@drawable/video_library"
+        android:title="Video" />
+
+    <item
+        android:id="@+id/nav_bucket"
+        android:icon="@drawable/bucket"
+        android:title="Bucket" />
+
+
+
+</menu>

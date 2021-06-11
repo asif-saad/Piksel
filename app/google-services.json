@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "350265253119",
+    "project_id": "piksel-b8863",
+    "storage_bucket": "piksel-b8863.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350265253119:android:87e9155e34f419217740ca",
+        "android_client_info": {
+          "package_name": "com.example.piksel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350265253119-vbl9fsqbtafogo21s6b3e49emelob5ed.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFtfK-xljVuW7FXpsx_8BuZ64Ixc_25wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350265253119-vbl9fsqbtafogo21s6b3e49emelob5ed.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/Primary"
+    android:elevation="10dp">
+
+    <ImageView
+        android:id="@+id/BackArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/arrow_back" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_toRightOf="@id/BackArrow"
+        android:id="@+id/Toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:title="Profile" />
+
+</RelativeLayout>
