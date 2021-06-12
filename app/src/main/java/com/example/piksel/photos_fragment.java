@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,7 @@ import java.util.Objects;
 public class photos_fragment extends Fragment {
 
     private FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-    private CollectionReference PhotoRef = FStore.collection("Photos");
+    private CollectionReference PhotoRef;
     private ArrayList<Uploads> Array=new ArrayList<>();
     private RecyclerView recyclerView;
     boolean isScrolling;
@@ -55,6 +56,10 @@ public class photos_fragment extends Fragment {
         recyclerView=root.findViewById(R.id.Photos_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
+
+
+
+        PhotoRef=FStore.collection("Photos");
 
 
         /*Query query=PhotoRef.limit(3);
@@ -141,7 +146,6 @@ public class photos_fragment extends Fragment {
 
 
                 }
-
                 recyclerView.setAdapter(new ImageHolderAdapter(root.getContext(),Array));
             }
 

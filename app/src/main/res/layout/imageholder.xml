@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="15dp"
+    android:layout_marginTop="15dp"
     android:layout_marginBottom="10dp"
     android:elevation="10dp"
-    android:layout_marginTop="15dp">
+    app:cardCornerRadius="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,30 +21,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/AskedPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00B7FF"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
 
             <TextView
-                android:id="@+id/LoveReact"
+                android:id="@+id/HighestBid"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:background="#FF0000"
-                android:drawableRight="@drawable/love_react"
-                android:text="2"
+                android:layout_weight="1"
+                android:background="#E6FF00"
                 android:textAlignment="center"
-                android:textColor="#ffffff" />
+                android:textColor="#000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            <TextView
-                android:id="@+id/PriceImageHolder"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="12"
-                android:background="#0097FF"
-                android:text="$  40"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#ffff" />
 
         </LinearLayout>
 

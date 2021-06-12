@@ -1,5 +1,8 @@
 package com.example.piksel;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class Uploads {
 
     private String imageUrl;
@@ -8,8 +11,7 @@ public class Uploads {
     private float askedPrice;
     private float highestBid = 0;
     private String HighestID = "-1";
-
-
+    public CollectionReference UserRef = FirebaseFirestore.getInstance().collection("Users");
 
 
     public Uploads() {
