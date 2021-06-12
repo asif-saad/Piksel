@@ -5,13 +5,38 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="15dp"
     android:layout_marginBottom="10dp"
-    android:elevation="10dp"
+    android:elevation="20dp"
     app:cardCornerRadius="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@color/Primary"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ProfilePhotoImageHolder"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/profile" />
+
+            <TextView
+                android:id="@+id/ProfileNameImageHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/ProfilePhotoImageHolder"
+                android:text="demo text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/ImageViewImageHolder"
@@ -31,7 +56,7 @@
                 android:layout_weight="1"
                 android:background="#00B7FF"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
             <TextView
@@ -41,8 +66,8 @@
                 android:layout_weight="1"
                 android:background="#E6FF00"
                 android:textAlignment="center"
-                android:textColor="#000000"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#000000" />
 
 
         </LinearLayout>

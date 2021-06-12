@@ -14,7 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +29,18 @@ public class ImageHolderAdapter extends RecyclerView.Adapter<ImageHolderAdapter.
 
     private Context context;
     private ArrayList<Uploads> uploads;
+    public OnItemClickListener onItemClickListener;
+
+
+    public interface OnItemClickListener
+    {
+        void Onclick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener mListener)
+    {
+        onItemClickListener=mListener;
+    }
 
 
     public ImageHolderAdapter(Context context, ArrayList<Uploads> uploads) {
@@ -51,6 +66,16 @@ public class ImageHolderAdapter extends RecyclerView.Adapter<ImageHolderAdapter.
         DelayFunction(500);
         holder.HighestBid.setText("Highest: "+uploads.get(position).getHighestBid());
         holder.AskedPrice.setText("Asked :"+uploads.get(position).getAskedPrice());
+        FirebaseFirestore.getInstance().collection("Users").document(uploads.get(position).getUserID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists())
+                {
+                    String name=documentSnapshot.get("Name").toString();
+                    holder.UserName.setText(name);
+                }
+            }
+        });
     }
 
 
@@ -71,6 +96,7 @@ public class ImageHolderAdapter extends RecyclerView.Adapter<ImageHolderAdapter.
 
         public ImageView imageViewHolder;
         public TextView AskedPrice,HighestBid;
+        public TextView UserName;
 
         public ImageHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -78,6 +104,18 @@ public class ImageHolderAdapter extends RecyclerView.Adapter<ImageHolderAdapter.
             imageViewHolder=itemView.findViewById(R.id.ImageViewImageHolder);
             AskedPrice=itemView.findViewById(R.id.AskedPrice);
             HighestBid=itemView.findViewById(R.id.HighestBid);
+            UserName=itemView.findViewById(R.id.ProfileNameImageHolder);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onItemClickListener!=null)
+                    {
+                        int position=getAdapterPosition();
+                        onItemClickListener.Onclick(position);
+                    }
+                }
+            });
         }
 
     }

@@ -1,5 +1,6 @@
 package com.example.piksel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,10 +41,9 @@ public class photos_fragment extends Fragment {
     private FirebaseFirestore FStore = FirebaseFirestore.getInstance();
     private CollectionReference PhotoRef;
     private ArrayList<Uploads> Array=new ArrayList<>();
+    private ArrayList<String> key=new ArrayList<>();
     private RecyclerView recyclerView;
-    boolean isScrolling;
-    DocumentSnapshot lastVisible;
-    boolean isLastItemReached=false;
+    public ImageHolderAdapter imageHolderAdapter;
 
 
 
@@ -140,13 +141,22 @@ public class photos_fragment extends Fragment {
                     if(!c.equals(s))
                     {
                         Uploads a=queryDocumentSnapshot.toObject(Uploads.class);
-
+                        key.add(queryDocumentSnapshot.getId());
                         Array.add(a);
                     }
 
 
                 }
-                recyclerView.setAdapter(new ImageHolderAdapter(root.getContext(),Array));
+                imageHolderAdapter=new ImageHolderAdapter(root.getContext(),Array);
+                recyclerView.setAdapter(imageHolderAdapter);
+                imageHolderAdapter.setOnItemClickListener(new ImageHolderAdapter.OnItemClickListener() {
+                    @Override
+                    public void Onclick(int position) {
+                        Intent intent=new Intent(getContext(),PhotoPost.class);
+                        intent.putExtra("KeyId",key.get(position));
+                        startActivity(intent);
+                    }
+                });
             }
 
 
