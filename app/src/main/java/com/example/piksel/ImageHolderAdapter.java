@@ -2,6 +2,7 @@ package com.example.piksel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,8 @@ public class ImageHolderAdapter extends RecyclerView.Adapter<ImageHolderAdapter.
     public void onBindViewHolder(@NonNull @NotNull ImageHolder holder, int position)
     {
         Glide.with(context).load(uploads.get(position).getImageUrl()).into(holder.imageViewHolder);
-        holder.HighestBid.setText("Highest: "+uploads.get(position).getAskedPrice());
+        DelayFunction(500);
+        holder.HighestBid.setText("Highest: "+uploads.get(position).getHighestBid());
         holder.AskedPrice.setText("Asked :"+uploads.get(position).getAskedPrice());
     }
 
@@ -78,6 +80,18 @@ public class ImageHolderAdapter extends RecyclerView.Adapter<ImageHolderAdapter.
             HighestBid=itemView.findViewById(R.id.HighestBid);
         }
 
+    }
+
+
+    private void DelayFunction(int a)
+    {
+        Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        },a);
     }
 
 

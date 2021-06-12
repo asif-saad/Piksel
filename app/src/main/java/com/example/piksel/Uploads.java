@@ -8,8 +8,8 @@ public class Uploads {
     private String imageUrl;
     private String userID;
     private int like = 0;
-    private float askedPrice;
-    private float highestBid = 0;
+    private int askedPrice;
+    private int highestBid = 0;
     private String HighestID = "-1";
     public CollectionReference UserRef = FirebaseFirestore.getInstance().collection("Users");
 
@@ -19,7 +19,7 @@ public class Uploads {
     }
 
 
-    public Uploads(String imageUrl, String userID, float askedPrice) {
+    public Uploads(String imageUrl, String userID, int askedPrice) {
         this.imageUrl = imageUrl;
         this.userID = userID;
         this.askedPrice = askedPrice;
@@ -50,7 +50,7 @@ public class Uploads {
         return askedPrice;
     }
 
-    public void setAskedPrice(float askedPrice) {
+    public void setAskedPrice(int askedPrice) {
         this.askedPrice = askedPrice;
     }
 
@@ -58,7 +58,7 @@ public class Uploads {
         return highestBid;
     }
 
-    public void setHighestBid(float highestBid) {
+    public void setHighestBid(int highestBid) {
         this.highestBid = highestBid;
     }
 

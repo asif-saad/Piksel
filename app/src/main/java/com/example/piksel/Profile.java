@@ -197,12 +197,17 @@ public class Profile extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     String url=uri.toString();
                                     int price = Integer.parseInt(pricePhoto.getText().toString());
-                                    HashMap<String,Object> map=new HashMap<>();
+                                    Map<String,Object> map=new HashMap<>();
                                     map.put("imageUrl",url);
                                     map.put("userID",userID);
                                     map.put("askedPrice",price);
+                                    map.put("like",0);
+                                    map.put("highestBid",0);
+                                    map.put("HighestID","-1");
                                     FStore.collection("Photos").document().set(map);
                                     Toast.makeText(getApplicationContext(),"uploaded successfully",Toast.LENGTH_SHORT).show();
+                                    imageView.setImageResource(R.drawable.add_photo);
+                                    pricePhoto.getText().clear();
                                 }
                             });
 
@@ -260,4 +265,5 @@ public class Profile extends AppCompatActivity {
             Picasso.get().load(ImageUri).into(imageView);
         }
     }
+
 }
