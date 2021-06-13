@@ -25,7 +25,7 @@ public class PhotoPost extends AppCompatActivity {
 
     private ImageView PhotoPost;
     private ImageView ProfilePhoto;
-    private TextView AskedPrice, HighestBid;
+    private TextView AskedPrice, HighestBid,UserName;
     private String Url;
     private String askedPrice, highestBid;
     private DocumentReference documentReference;
@@ -43,38 +43,45 @@ public class PhotoPost extends AppCompatActivity {
         PhotoPost = findViewById(R.id.PhotoPhotoPost);
         AskedPrice = findViewById(R.id.AskedPricePhotoPost);
         HighestBid = findViewById(R.id.HighestBidPhotoPost);
+        UserName=findViewById(R.id.USerNamePhotoPost);
 
 
         setValues();
+
 
     }
 
     private void setValues() {
 
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            Url = documentSnapshot.get("imageUrl").toString();
-                            Glide.with(getCurrentFocus()).load(Url).into(PhotoPost);
-                            askedPrice = documentSnapshot.get("askedPrice").toString();
-                            AskedPrice.setText("Asked Price: " + askedPrice);
+        if(documentReference!=null)
+        {
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists())
+                    {
+                        Url=documentSnapshot.getString("imageUrl");
+                        Glide.with(getApplicationContext()).load(Url).fitCenter().into(PhotoPost);
+                        askedPrice=String.valueOf(documentSnapshot.getLong("askedPrice"));
+                        AskedPrice.setText("Asked Price: " + askedPrice);
+                        highestBid = String.valueOf(documentSnapshot.getLong("highestBid"));
+                        HighestBid.setText("Highest Bid: " + highestBid);
+                        String Id=documentSnapshot.getString("userID");
+                        FirebaseFirestore.getInstance().collection("Users").document(Id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if(documentSnapshot.exists())
+                                {
+                                    String userName=documentSnapshot.getString("Name");
+                                    UserName.setText(userName);
 
-                            highestBid = documentSnapshot.get("highestBid").toString();
-                            HighestBid.setText("Highest Bid: " + highestBid);
-                        }
+                                }
+                            }
+                        });
                     }
-                });
-            }
-        }).
-                addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+            });
+        }
+
     }
 }

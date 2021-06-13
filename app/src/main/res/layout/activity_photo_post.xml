@@ -16,6 +16,7 @@
             android:id="@+id/ProfilePhotoPhotoPost"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:src="@drawable/profile"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp" />
 
@@ -26,8 +27,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:layout_toEndOf="@id/ProfilePhotoPhotoPost" />
+            android:layout_toEndOf="@id/ProfilePhotoPhotoPost"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <ImageView
             android:id="@+id/PhotoPhotoPost"
@@ -47,7 +48,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#00B7FF"
+                android:elevation="10dp"
                 android:shadowRadius="10"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
@@ -55,7 +59,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#E6FF00"
+                android:elevation="10dp"
                 android:shadowRadius="10"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 
