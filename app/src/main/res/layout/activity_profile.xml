@@ -21,11 +21,11 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_marginTop="30dp"
-                android:layout_gravity="center"
                 android:id="@+id/PhotoProfile"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/profile" />
 
             <TextView
@@ -67,11 +67,16 @@
                 android:id="@+id/ChoosePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="choose photos"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/Tertiary"
+                android:shadowRadius="20"
+                android:text="choose photo"
+                android:textAlignment="center"
+                android:elevation="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
             <ImageView
@@ -79,7 +84,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:elevation="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:focusable="true"
+                android:background="#DFDFDF"
                 android:src="@drawable/add_photo" />
 
             <EditText
@@ -89,11 +99,65 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:background="#C3F87B"
                 android:elevation="10dp"
-                android:hint="Price"
+                android:hint="Asked Price"
                 android:inputType="number"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:shadowRadius="10"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColorHint="#000000" />
 
+
+            <LinearLayout
+                android:id="@+id/DatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/DatePickerDay"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/Secondary"
+                    android:elevation="5dp"
+                    android:shadowRadius="10"
+                    android:text="Day: "
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/DatePickerMonth"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/Secondary"
+                    android:elevation="5dp"
+                    android:shadowRadius="10"
+                    android:text="Month: "
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/DatePickerYear"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/Secondary"
+                    android:elevation="5dp"
+                    android:shadowRadius="10"
+                    android:text="Year: "
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/Progressbar_BucketImageProfile"

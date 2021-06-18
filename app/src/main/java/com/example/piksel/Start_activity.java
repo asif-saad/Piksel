@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.dynamic.SupportFragmentWrapper;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +27,7 @@ public class Start_activity extends AppCompatActivity{
 
     private CircleImageView profile;
     private Toolbar toolbar;
+    private ImageView LogoutImage;
 
 
 
@@ -36,6 +39,7 @@ public class Start_activity extends AppCompatActivity{
 
         profile=findViewById(R.id.Toolbar_Profile);
         toolbar=findViewById(R.id.Toolbar);
+        LogoutImage=findViewById(R.id.LogoutToolbar);
 
 
         BottomNavigationView bottomNav=findViewById(R.id.BottomNavigationBar);
@@ -48,6 +52,18 @@ public class Start_activity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Start_activity.this,Profile.class));
+                finish();
+            }
+        });
+
+
+
+
+        LogoutImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Start_activity.this,MainActivity.class));
                 finish();
             }
         });

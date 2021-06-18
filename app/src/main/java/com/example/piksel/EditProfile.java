@@ -50,6 +50,7 @@ public class EditProfile extends AppCompatActivity {
     private String ProfilePhoto;
     private Uri ImageUri;
     private StorageReference storageReference;
+    private ImageView LogoutImage;
 
 
 
@@ -64,6 +65,7 @@ public class EditProfile extends AppCompatActivity {
         EmailEdit=findViewById(R.id.EmailEditProfile);
         SaveButton=findViewById(R.id.SubmitEdit);
         ProfilePhotoEdit=findViewById(R.id.PhotoEditProfile);
+        LogoutImage=findViewById(R.id.LogoutToolbar1);
 
 
 
@@ -121,6 +123,18 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 OpenFileChooser();
+            }
+        });
+
+
+
+
+        LogoutImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(EditProfile.this,MainActivity.class));
+                finish();
             }
         });
 

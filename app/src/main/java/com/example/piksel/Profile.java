@@ -3,8 +3,12 @@ package com.example.piksel;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,9 +18,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +45,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -60,7 +67,9 @@ public class Profile extends AppCompatActivity {
     private ProgressBar progressBarImage;
     private ImageView imageView;
     private FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-    private Button buttonUpload;
+    private LinearLayout DatePickerLinear;
+    private TextView DayText, MonthText, YearText;
+    private DatePickerDialog datePickerDialog;
 
 
     @Override
@@ -80,7 +89,12 @@ public class Profile extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("Photos");
         progressBarImage = findViewById(R.id.Progressbar_BucketImageProfile);
         imageView = findViewById(R.id.ImageviewUploadProfile);
-        buttonUpload = findViewById(R.id.UploadButtonProfile);
+        Button buttonUpload = findViewById(R.id.UploadButtonProfile);
+        ImageView logoutImage = findViewById(R.id.LogoutToolbar1);
+        DatePickerLinear = findViewById(R.id.DatePicker);
+        DayText = findViewById(R.id.DatePickerDay);
+        MonthText = findViewById(R.id.DatePickerMonth);
+        YearText = findViewById(R.id.DatePickerYear);
 
 
         userID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -88,6 +102,7 @@ public class Profile extends AppCompatActivity {
 
 
         setValue();
+        initDate();
 
 
         BackArrow.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +142,50 @@ public class Profile extends AppCompatActivity {
         });
 
 
+        logoutImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Profile.this, MainActivity.class));
+                finish();
+            }
+        });
+
+
+        DatePickerLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
+    }
+
+
+    private void initDate() {
+
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month += 1;
+
+                DayText.setText("Day: " + String.valueOf(dayOfMonth));
+                MonthText.setText("Month: " + String.valueOf(month));
+                YearText.setText("Year: " + String.valueOf(year));
+            }
+        };
+
+
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+
+        datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, dateSetListener, year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
+        //datePickerDialog.show();
     }
 
 
@@ -186,47 +245,25 @@ public class Profile extends AppCompatActivity {
                             }, 500);
 
 
-
-
-
-
-
-
                             FileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    String url=uri.toString();
+                                    String url = uri.toString();
                                     int price = Integer.parseInt(pricePhoto.getText().toString());
-                                    Map<String,Object> map=new HashMap<>();
-                                    map.put("imageUrl",url);
-                                    map.put("userID",userID);
-                                    map.put("askedPrice",price);
-                                    map.put("like",0);
-                                    map.put("highestBid",0);
-                                    map.put("HighestID","-1");
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("imageUrl", url);
+                                    map.put("userID", userID);
+                                    map.put("askedPrice", price);
+                                    map.put("like", 0);
+                                    map.put("highestBid", 0);
+                                    map.put("HighestID", "-1");
                                     FStore.collection("Photos").document().set(map);
-                                    Toast.makeText(getApplicationContext(),"uploaded successfully",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "uploaded successfully", Toast.LENGTH_SHORT).show();
                                     imageView.setImageResource(R.drawable.add_photo);
                                     pricePhoto.getText().clear();
                                 }
                             });
 
-                            /*taskSnapshot.getMetadata().getReference().getDownloadUrl().
-                                    addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String DownloadUrl = uri.toString();
-                                    Snackbar.make(getCurrentFocus(), "Successfully uploaded!", Snackbar.LENGTH_SHORT).show();
-                                    int price = Integer.parseInt(pricePhoto.getText().toString());
-                                    Uploads uploads = new Uploads(DownloadUrl, userID, price);
-                                    FStore.collection("Photos").document().set(uploads);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-                                    Toast.makeText(getApplicationContext(),"failure in firebase firestore",Toast.LENGTH_SHORT).show();
-                                }
-                            });*/
                         }
                     }).
                     addOnFailureListener(new OnFailureListener() {

@@ -10,4 +10,5 @@
     <color name="Primary">#3CFF7D</color>
     <color name="Secondary">#B4FF08</color>
     <color name="RecyclerBackground">#FFF643</color>
+    <color name="Tertiary">#44FF6D</color>
 </resources>
