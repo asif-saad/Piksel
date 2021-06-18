@@ -72,10 +72,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="20dp"
                 android:background="@color/Tertiary"
+                android:elevation="10dp"
                 android:shadowRadius="20"
                 android:text="choose photo"
                 android:textAlignment="center"
-                android:elevation="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -83,13 +83,13 @@
                 android:id="@+id/ImageviewUploadProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="#DFDFDF"
                 android:clickable="true"
                 android:elevation="10dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:focusable="true"
-                android:background="#DFDFDF"
                 android:src="@drawable/add_photo" />
 
             <EditText
@@ -157,6 +157,46 @@
                     android:text="Year: "
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/TimerPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/TimePickerHour"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/Secondary"
+                    android:elevation="5dp"
+                    android:shadowRadius="10"
+                    android:text="Hour: "
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+                <TextView
+                    android:id="@+id/TimePickerMinute"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/Secondary"
+                    android:elevation="5dp"
+                    android:shadowRadius="10"
+                    android:text="Minute: "
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
             </LinearLayout>
 
             <ProgressBar

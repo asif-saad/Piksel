@@ -2,6 +2,7 @@ package com.example.piksel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -9,9 +10,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -25,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -45,6 +49,9 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Clock;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,23 +60,23 @@ import java.util.Objects;
 public class Profile extends AppCompatActivity {
 
 
-    private ImageView BackArrow;
     private ImageView PhotoProfile;
-    private Button EditProfile;
     private TextView NameProfile;
     private TextView EmailProfile;
     private Uri ImageUri;
     private String userID, userName, userEmail, ProfilePhoto;
     private DocumentReference documentReference;
     private EditText pricePhoto;
-    private ProgressBar progressBarVideo;
     private StorageReference storageReference;
     private ProgressBar progressBarImage;
     private ImageView imageView;
     private FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-    private LinearLayout DatePickerLinear;
     private TextView DayText, MonthText, YearText;
     private DatePickerDialog datePickerDialog;
+    private TextView HourText,MinuteText;
+    private TimePickerDialog timePickerDialog;
+
+
 
 
     @Override
@@ -78,12 +85,12 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
 
-        BackArrow = findViewById(R.id.BackArrow);
+        ImageView backArrow = findViewById(R.id.BackArrow);
         PhotoProfile = findViewById(R.id.PhotoProfile);
-        EditProfile = findViewById(R.id.EditProfile);
+        Button editProfile = findViewById(R.id.EditProfile);
         NameProfile = findViewById(R.id.NameProfile);
         EmailProfile = findViewById(R.id.EmailProfile);
-        progressBarVideo = findViewById(R.id.Progressbar_BucketVideoProfile);
+        ProgressBar progressBarVideo = findViewById(R.id.Progressbar_BucketVideoProfile);
         progressBarVideo.setVisibility(View.INVISIBLE);
         pricePhoto = findViewById(R.id.PricePhotoProfile);
         storageReference = FirebaseStorage.getInstance().getReference("Photos");
@@ -91,10 +98,17 @@ public class Profile extends AppCompatActivity {
         imageView = findViewById(R.id.ImageviewUploadProfile);
         Button buttonUpload = findViewById(R.id.UploadButtonProfile);
         ImageView logoutImage = findViewById(R.id.LogoutToolbar1);
-        DatePickerLinear = findViewById(R.id.DatePicker);
+        LinearLayout datePickerLinear = findViewById(R.id.DatePicker);
         DayText = findViewById(R.id.DatePickerDay);
         MonthText = findViewById(R.id.DatePickerMonth);
         YearText = findViewById(R.id.DatePickerYear);
+        HourText=findViewById(R.id.TimePickerHour);
+        MinuteText=findViewById(R.id.TimePickerMinute);
+        LinearLayout timePickerLinear = findViewById(R.id.TimerPicker);
+
+
+
+
 
 
         userID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -103,9 +117,10 @@ public class Profile extends AppCompatActivity {
 
         setValue();
         initDate();
+        initTime();
 
 
-        BackArrow.setOnClickListener(new View.OnClickListener() {
+        backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Profile.this, Start_activity.class));
@@ -114,7 +129,7 @@ public class Profile extends AppCompatActivity {
         });
 
 
-        EditProfile.setOnClickListener(new View.OnClickListener() {
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Profile.this, EditProfile.class));
@@ -152,13 +167,44 @@ public class Profile extends AppCompatActivity {
         });
 
 
-        DatePickerLinear.setOnClickListener(new View.OnClickListener() {
+        datePickerLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timePickerDialog.show();
                 datePickerDialog.show();
             }
         });
 
+
+
+        timePickerLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show();
+                datePickerDialog.show();
+            }
+        });
+
+    }
+
+    private void initTime() {
+
+        TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                HourText.setText("Hour: "+String.valueOf(hourOfDay));
+                MinuteText.setText("Minute: "+String.valueOf(minute));
+            }
+
+        };
+
+        Calendar calendar=Calendar.getInstance();
+        int Hour=calendar.get(Calendar.HOUR);
+        int Minute=calendar.get(Calendar.MINUTE);
+
+
+        timePickerDialog=new TimePickerDialog(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK,timeSetListener,Hour,Minute,true);
     }
 
 
@@ -185,7 +231,6 @@ public class Profile extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, dateSetListener, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
-        //datePickerDialog.show();
     }
 
 
