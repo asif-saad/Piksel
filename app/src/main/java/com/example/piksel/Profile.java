@@ -75,6 +75,7 @@ public class Profile extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private TextView HourText,MinuteText;
     private TimePickerDialog timePickerDialog;
+    private int Hour=-1,Minute=-1,Day=-1,Month=-1,Year=-1;
 
 
 
@@ -187,6 +188,19 @@ public class Profile extends AppCompatActivity {
 
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void initTime() {
 
         TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
@@ -195,16 +209,18 @@ public class Profile extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 HourText.setText("Hour: "+String.valueOf(hourOfDay));
                 MinuteText.setText("Minute: "+String.valueOf(minute));
+                Hour=hourOfDay;
+                Minute=minute;
             }
 
         };
 
         Calendar calendar=Calendar.getInstance();
-        int Hour=calendar.get(Calendar.HOUR);
-        int Minute=calendar.get(Calendar.MINUTE);
+        int hour=calendar.get(Calendar.HOUR);
+        int minute=calendar.get(Calendar.MINUTE);
 
 
-        timePickerDialog=new TimePickerDialog(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK,timeSetListener,Hour,Minute,true);
+        timePickerDialog=new TimePickerDialog(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK,timeSetListener,hour,minute,true);
     }
 
 
@@ -219,6 +235,10 @@ public class Profile extends AppCompatActivity {
                 DayText.setText("Day: " + String.valueOf(dayOfMonth));
                 MonthText.setText("Month: " + String.valueOf(month));
                 YearText.setText("Year: " + String.valueOf(year));
+                Year=year;
+                Month=month;
+                Day=dayOfMonth;
+
             }
         };
 
@@ -270,7 +290,8 @@ public class Profile extends AppCompatActivity {
 
 
     private void uploadFile() {
-        if (ImageUri != null && !TextUtils.isEmpty(pricePhoto.getText().toString())) {
+        Boolean flagTime=(Hour!=-1 && Minute!=-1 && Day!=-1 && Month!=-1 && Year!=1);
+        if (ImageUri != null && !TextUtils.isEmpty(pricePhoto.getText().toString()) && flagTime) {
             StorageReference FileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(ImageUri));
             progressBarImage.setVisibility(View.VISIBLE);
 
@@ -302,6 +323,14 @@ public class Profile extends AppCompatActivity {
                                     map.put("like", 0);
                                     map.put("highestBid", 0);
                                     map.put("HighestID", "-1");
+                                    map.put("DeadlineMonth",Month);
+                                    map.put("DeadlineDay",Day);
+                                    map.put("DeadlineYear",Year);
+                                    map.put("DeadlineHour",Hour);
+                                    map.put("DeadlineMinute",Minute);
+
+
+
                                     FStore.collection("Photos").document().set(map);
                                     Toast.makeText(getApplicationContext(), "uploaded successfully", Toast.LENGTH_SHORT).show();
                                     imageView.setImageResource(R.drawable.add_photo);

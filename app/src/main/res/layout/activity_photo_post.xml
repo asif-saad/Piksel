@@ -16,9 +16,9 @@
             android:id="@+id/ProfilePhotoPhotoPost"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/profile"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:src="@drawable/profile" />
 
         <TextView
             android:id="@+id/USerNamePhotoPost"
@@ -39,6 +39,7 @@
             android:src="@drawable/profile" />
 
         <LinearLayout
+            android:id="@+id/PhotoPostLinear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/PhotoPhotoPost">
@@ -65,6 +66,66 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/PhotoPostScroll"
+            android:layout_alignParentBottom="true">
+
+            <EditText
+                android:id="@+id/PhotoPostBidText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="5"
+                android:hint="Your Bid"
+                android:inputType="numberDecimal"
+                android:shadowRadius="10"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/PhotoPostBidButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:elevation="10dp"
+                android:shadowRadius="10"
+                android:text="Bid"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#000000" />
+
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/PhotoPostScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/PhotoPostLinear">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/PhotoPostRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#E6E5E5" />
+            </androidx.cardview.widget.CardView>
+
+        </androidx.core.widget.NestedScrollView>
 
 
     </RelativeLayout>

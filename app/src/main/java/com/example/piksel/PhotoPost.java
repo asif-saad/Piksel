@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,11 +27,12 @@ public class PhotoPost extends AppCompatActivity {
 
 
     private ImageView PhotoPost;
-    private ImageView ProfilePhoto;
     private TextView AskedPrice, HighestBid,UserName;
     private String Url;
     private String askedPrice, highestBid;
     private DocumentReference documentReference;
+    private EditText BidPrice;
+    private Button BidButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +48,24 @@ public class PhotoPost extends AppCompatActivity {
         AskedPrice = findViewById(R.id.AskedPricePhotoPost);
         HighestBid = findViewById(R.id.HighestBidPhotoPost);
         UserName=findViewById(R.id.USerNamePhotoPost);
+        BidPrice=findViewById(R.id.PhotoPostBidText);
+        BidButton=findViewById(R.id.PhotoPostBidButton);
+
 
 
         setValues();
+
+        BidButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Integer.parseInt(BidPrice.getText().toString().trim())>Integer.parseInt(highestBid))
+                {
+                    highestBid=BidPrice.getText().toString();
+                    HighestBid.setText("Highest Bid: $"+highestBid);
+                    BidPrice.getText().clear();
+                }
+            }
+        });
 
 
     }
@@ -63,9 +82,9 @@ public class PhotoPost extends AppCompatActivity {
                         Url=documentSnapshot.getString("imageUrl");
                         Glide.with(getApplicationContext()).load(Url).fitCenter().into(PhotoPost);
                         askedPrice=String.valueOf(documentSnapshot.getLong("askedPrice"));
-                        AskedPrice.setText("Asked Price: " + askedPrice);
+                        AskedPrice.setText("Asked Price: $" + askedPrice);
                         highestBid = String.valueOf(documentSnapshot.getLong("highestBid"));
-                        HighestBid.setText("Highest Bid: " + highestBid);
+                        HighestBid.setText("Highest Bid: $" + highestBid);
                         String Id=documentSnapshot.getString("userID");
                         FirebaseFirestore.getInstance().collection("Users").document(Id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
