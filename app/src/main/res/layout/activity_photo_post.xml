@@ -8,6 +8,7 @@
 
     <ScrollView
         android:id="@+id/ScrollViewPhotoPost"
+        android:layout_above="@id/PhotoPostBiddingBelowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -113,10 +114,11 @@
 
 
     </ScrollView>
-    
+
     <include layout="@layout/photobiddingbelow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/PhotoPostBiddingBelowLayout"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
