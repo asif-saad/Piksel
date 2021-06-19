@@ -136,8 +136,8 @@ public class photos_fragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots)
                 {
-                    String c=queryDocumentSnapshot.getData().get("userID").toString();
-                    String s= FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String c= Objects.requireNonNull(queryDocumentSnapshot.getData().get("userID")).toString();
+                    String s= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     if(!c.equals(s))
                     {
                         Uploads a=queryDocumentSnapshot.toObject(Uploads.class);

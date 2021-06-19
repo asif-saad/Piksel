@@ -76,6 +76,7 @@ public class Profile extends AppCompatActivity {
     private TextView HourText,MinuteText;
     private TimePickerDialog timePickerDialog;
     private int Hour=-1,Minute=-1,Day=-1,Month=-1,Year=-1;
+    private String MonthName;
 
 
 
@@ -224,6 +225,40 @@ public class Profile extends AppCompatActivity {
     }
 
 
+    private String getMonth(int month)
+    {
+        switch (month)
+        {
+            case 1:
+                return "Jan";
+            case 2:
+                return "Feb";
+            case 3:
+                return "Mar";
+            case 4:
+                return "Apr";
+            case 5:
+                return "May";
+            case 6:
+                return "Jun";
+            case 7:
+                return "Jul";
+            case 8:
+                return "Aug";
+            case 9:
+                return "Sep";
+            case 10:
+                return "Oct";
+
+            case 11:
+                return "Nov";
+            case 12:
+                return "Dec";
+        }
+        return null;
+    }
+
+
     private void initDate() {
 
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -315,6 +350,10 @@ public class Profile extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String url = uri.toString();
+                                    String deadline=String.valueOf(Day)+" "+getMonth(Month)+" "+String.valueOf(Year)+" at "+
+                                            String.valueOf(Hour)+
+                                            ":"+String.valueOf(Minute);
+
                                     int price = Integer.parseInt(pricePhoto.getText().toString());
                                     Map<String, Object> map = new HashMap<>();
                                     map.put("imageUrl", url);
@@ -328,6 +367,7 @@ public class Profile extends AppCompatActivity {
                                     map.put("DeadlineYear",Year);
                                     map.put("DeadlineHour",Hour);
                                     map.put("DeadlineMinute",Minute);
+                                    map.put("deadline",deadline);
 
 
 

@@ -2,6 +2,8 @@ package com.example.piksel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,22 +19,37 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PhotoPost extends AppCompatActivity {
 
 
     private ImageView PhotoPost;
     private TextView AskedPrice, HighestBid,UserName;
-    private String Url;
+    private String Url,deadLine;
     private String askedPrice, highestBid;
     private DocumentReference documentReference;
     private EditText BidPrice;
     private Button BidButton;
+    private TextView Deadline;
+    private String Name,UserId,Time;
+    ArrayList<PhotoPostBidder> bidder=new ArrayList<>();
+    private RecyclerView recyclerView;
+    private PhotoPostUserAdapter photoPostUserAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +59,16 @@ public class PhotoPost extends AppCompatActivity {
 
         String key = getIntent().getStringExtra("KeyId");
         documentReference = FirebaseFirestore.getInstance().collection("Photos").document(key);
+        UserId= FirebaseAuth.getInstance().getUid();
+        FirebaseFirestore.getInstance().collection("Users").document(UserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists())
+                {
+                    Name=documentSnapshot.getString("Name");
+                }
+            }
+        });
 
 
         PhotoPost = findViewById(R.id.PhotoPhotoPost);
@@ -50,25 +77,121 @@ public class PhotoPost extends AppCompatActivity {
         UserName=findViewById(R.id.USerNamePhotoPost);
         BidPrice=findViewById(R.id.PhotoPostBidText);
         BidButton=findViewById(R.id.PhotoPostBidButton);
+        Deadline=findViewById(R.id.PhotoPostDeadline);
+        recyclerView=findViewById(R.id.PhotoPostRecyclerView);
 
 
 
         setValues();
+        setBiddersData();
+
+
+
+
 
         BidButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // update the sub collection
+                // update highest bid
+                // add the new bid
+                // update highest bidder id
+
+
+
                 if(Integer.parseInt(BidPrice.getText().toString().trim())>Integer.parseInt(highestBid))
                 {
                     highestBid=BidPrice.getText().toString();
                     HighestBid.setText("Highest Bid: $"+highestBid);
                     BidPrice.getText().clear();
+
+                    Map<String,Object> map= new HashMap<>();
+                    Calendar cal=Calendar.getInstance();
+                    Time= cal.get(Calendar.DAY_OF_MONTH) +" "+getMonth(cal.get(Calendar.MONTH))+" "+cal.get(Calendar.YEAR)+" at "+
+                            cal.get(Calendar.HOUR)+":"+ cal.get(Calendar.MINUTE);
+                    map.put("Name",Name);
+                    map.put("Bid",Integer.parseInt(highestBid));
+                    map.put("Time",Time);
+                    map.put("UserId",UserId);
+
+
+
+                    documentReference.collection("Bidders").document().set(map);
+                    Snackbar.make(getCurrentFocus(),"Bid has been updated!",Snackbar.LENGTH_SHORT).show();
+
+
+                    documentReference.update("highestBid",Integer.parseInt(highestBid));
+                    documentReference.update("HighestID",UserId);
+                    setBiddersData();
+
+                }
+                else
+                {
+                    Snackbar.make(getCurrentFocus(),"Highest Bid: $"+highestBid,Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
 
 
     }
+
+    private void setBiddersData() {
+
+        CollectionReference collectionReference=documentReference.collection("Bidders");
+        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots)
+                {
+                    PhotoPostBidder a=queryDocumentSnapshot.toObject(PhotoPostBidder.class);
+                    bidder.add(a);
+                }
+                recyclerView.setLayoutManager(new LinearLayoutManager(PhotoPost.this));
+                photoPostUserAdapter=new PhotoPostUserAdapter(bidder,PhotoPost.this);
+                recyclerView.setAdapter(photoPostUserAdapter);
+
+            }
+        });
+
+    }
+
+    private String getMonth(int month)
+    {
+        month+=1;
+        switch (month)
+        {
+            case 1:
+                return "Jan";
+            case 2:
+                return "Feb";
+            case 3:
+                return "Mar";
+            case 4:
+                return "Apr";
+            case 5:
+                return "May";
+            case 6:
+                return "Jun";
+            case 7:
+                return "Jul";
+            case 8:
+                return "Aug";
+            case 9:
+                return "Sep";
+            case 10:
+                return "Oct";
+
+            case 11:
+                return "Nov";
+            case 12:
+                return "Dec";
+        }
+        return null;
+    }
+
+
+
+
 
     private void setValues() {
 
@@ -80,11 +203,13 @@ public class PhotoPost extends AppCompatActivity {
                     if(documentSnapshot.exists())
                     {
                         Url=documentSnapshot.getString("imageUrl");
+                        deadLine=documentSnapshot.getString("deadline");
                         Glide.with(getApplicationContext()).load(Url).fitCenter().into(PhotoPost);
                         askedPrice=String.valueOf(documentSnapshot.getLong("askedPrice"));
                         AskedPrice.setText("Asked Price: $" + askedPrice);
                         highestBid = String.valueOf(documentSnapshot.getLong("highestBid"));
                         HighestBid.setText("Highest Bid: $" + highestBid);
+                        Deadline.setText("DeadLine: "+deadLine);
                         String Id=documentSnapshot.getString("userID");
                         FirebaseFirestore.getInstance().collection("Users").document(Id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override

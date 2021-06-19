@@ -10,8 +10,14 @@ public class Uploads {
     private int like = 0;
     private int askedPrice;
     private int highestBid = 0;
+    private int DeadlineMonth;
+    private int DeadlineDay;
+    private int DeadlineYear;
+    private int DeadlineHour;
+    private int DeadlineMinute;
     private String HighestID = "-1";
     public CollectionReference UserRef = FirebaseFirestore.getInstance().collection("Users");
+    private String deadline;
 
 
     public Uploads() {
@@ -19,10 +25,11 @@ public class Uploads {
     }
 
 
-    public Uploads(String imageUrl, String userID, int askedPrice) {
+    public Uploads(String imageUrl, String userID, int askedPrice,String deadline) {
         this.imageUrl = imageUrl;
         this.userID = userID;
         this.askedPrice = askedPrice;
+        this.deadline=deadline;
     }
 
 
@@ -72,6 +79,54 @@ public class Uploads {
 
     public void setHighestID(String highestID) {
         HighestID = highestID;
+    }
+
+    public int getDeadlineMonth() {
+        return DeadlineMonth;
+    }
+
+    public void setDeadlineMonth(int deadlineMonth) {
+        DeadlineMonth = deadlineMonth;
+    }
+
+    public int getDeadlineDay() {
+        return DeadlineDay;
+    }
+
+    public void setDeadlineDay(int deadlineDay) {
+        DeadlineDay = deadlineDay;
+    }
+
+    public int getDeadlineYear() {
+        return DeadlineYear;
+    }
+
+    public void setDeadlineYear(int deadlineYear) {
+        DeadlineYear = deadlineYear;
+    }
+
+    public int getDeadlineHour() {
+        return DeadlineHour;
+    }
+
+    public void setDeadlineHour(int deadlineHour) {
+        DeadlineHour = deadlineHour;
+    }
+
+    public int getDeadlineMinute() {
+        return DeadlineMinute;
+    }
+
+    public void setDeadlineMinute(int deadlineMinute) {
+        DeadlineMinute = deadlineMinute;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 }
 
