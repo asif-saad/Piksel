@@ -1,12 +1,14 @@
 package com.example.piksel;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -32,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -44,6 +47,7 @@ public class photos_fragment extends Fragment {
     private ArrayList<String> key=new ArrayList<>();
     private RecyclerView recyclerView;
     public ImageHolderAdapter imageHolderAdapter;
+    private int Year,Month,Day,Hour,Minute;
 
 
 
@@ -61,6 +65,17 @@ public class photos_fragment extends Fragment {
 
 
         PhotoRef=FStore.collection("Photos");
+
+        Calendar cal=Calendar.getInstance();
+        Year=cal.get(Calendar.YEAR);
+        Month=cal.get(Calendar.MONTH);
+        Month+=1;
+        Day=cal.get(Calendar.DAY_OF_MONTH);
+        Hour=cal.get(Calendar.HOUR);
+        Minute=cal.get(Calendar.MINUTE);
+
+
+
 
 
         /*Query query=PhotoRef.limit(3);
@@ -131,7 +146,7 @@ public class photos_fragment extends Fragment {
 
 
 
-        PhotoRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        PhotoRef.whereEqualTo("DeleteFlag",true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots)

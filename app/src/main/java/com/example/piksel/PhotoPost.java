@@ -25,6 +25,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class PhotoPost extends AppCompatActivity {
 
@@ -47,9 +49,9 @@ public class PhotoPost extends AppCompatActivity {
     private Button BidButton;
     private TextView Deadline;
     private String Name,UserId,Time;
-    ArrayList<PhotoPostBidder> bidder=new ArrayList<>();
     private RecyclerView recyclerView;
     private PhotoPostUserAdapter photoPostUserAdapter;
+    private int Year,Month,Day,Hour,Minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,11 @@ public class PhotoPost extends AppCompatActivity {
         });
 
 
+
+
+
+
+
         PhotoPost = findViewById(R.id.PhotoPhotoPost);
         AskedPrice = findViewById(R.id.AskedPricePhotoPost);
         HighestBid = findViewById(R.id.HighestBidPhotoPost);
@@ -79,6 +86,8 @@ public class PhotoPost extends AppCompatActivity {
         BidButton=findViewById(R.id.PhotoPostBidButton);
         Deadline=findViewById(R.id.PhotoPostDeadline);
         recyclerView=findViewById(R.id.PhotoPostRecyclerView);
+
+
 
 
 
@@ -96,17 +105,27 @@ public class PhotoPost extends AppCompatActivity {
                 // update highest bid
                 // add the new bid
                 // update highest bidder id
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                month+=1;
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+                int hour=cal.get(Calendar.HOUR);
+                int minute=cal.get(Calendar.MINUTE);
+                Time time=new Time(year,month,day,hour,minute);
 
-
-
-                if(Integer.parseInt(BidPrice.getText().toString().trim())>Integer.parseInt(highestBid))
+                if(time.comparison(Year,Month,Day,Hour,Minute))
+                {
+                    documentReference.update("DeleteFlag",false);
+                    Toast.makeText(PhotoPost.this,"Deadline expired!",Toast.LENGTH_SHORT).show();
+                }
+                else if(Integer.parseInt(BidPrice.getText().toString().trim())>Integer.parseInt(highestBid))
                 {
                     highestBid=BidPrice.getText().toString();
                     HighestBid.setText("Highest Bid: $"+highestBid);
                     BidPrice.getText().clear();
 
                     Map<String,Object> map= new HashMap<>();
-                    Calendar cal=Calendar.getInstance();
                     Time= cal.get(Calendar.DAY_OF_MONTH) +" "+getMonth(cal.get(Calendar.MONTH))+" "+cal.get(Calendar.YEAR)+" at "+
                             cal.get(Calendar.HOUR)+":"+ cal.get(Calendar.MINUTE);
                     map.put("Name",Name);
@@ -136,9 +155,10 @@ public class PhotoPost extends AppCompatActivity {
     }
 
     private void setBiddersData() {
+        ArrayList<PhotoPostBidder> bidder=new ArrayList<>();
 
         CollectionReference collectionReference=documentReference.collection("Bidders");
-        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        collectionReference.orderBy("Bid", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots)
@@ -147,7 +167,7 @@ public class PhotoPost extends AppCompatActivity {
                     bidder.add(a);
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(PhotoPost.this));
-                photoPostUserAdapter=new PhotoPostUserAdapter(bidder,PhotoPost.this);
+                PhotoPostUserAdapter photoPostUserAdapter=new PhotoPostUserAdapter(bidder,PhotoPost.this);
                 recyclerView.setAdapter(photoPostUserAdapter);
 
             }
@@ -202,6 +222,14 @@ public class PhotoPost extends AppCompatActivity {
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if(documentSnapshot.exists())
                     {
+                        Year=Integer.parseInt(Objects.requireNonNull(documentSnapshot.get("DeadlineYear")).toString());
+                        Minute=Integer.parseInt(Objects.requireNonNull(documentSnapshot.get("DeadlineMinute")).toString());
+                        Month=Integer.parseInt(Objects.requireNonNull(documentSnapshot.get("DeadlineMonth")).toString());
+                        Day=Integer.parseInt(Objects.requireNonNull(documentSnapshot.get("DeadlineDay")).toString());
+                        Hour=Integer.parseInt(Objects.requireNonNull(documentSnapshot.get("DeadlineHour")).toString());
+
+
+
                         Url=documentSnapshot.getString("imageUrl");
                         deadLine=documentSnapshot.getString("deadline");
                         Glide.with(getApplicationContext()).load(Url).fitCenter().into(PhotoPost);

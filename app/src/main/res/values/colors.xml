@@ -11,4 +11,5 @@
     <color name="Secondary">#B4FF08</color>
     <color name="RecyclerBackground">#FFF643</color>
     <color name="Tertiary">#44FF6D</color>
+    <color name="Casual">#E4E6E4</color>
 </resources>

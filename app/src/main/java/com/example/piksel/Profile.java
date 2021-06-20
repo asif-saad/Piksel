@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -325,6 +326,7 @@ public class Profile extends AppCompatActivity {
 
 
     private void uploadFile() {
+        Timestamp timestamp= Timestamp.now();
         Boolean flagTime=(Hour!=-1 && Minute!=-1 && Day!=-1 && Month!=-1 && Year!=1);
         if (ImageUri != null && !TextUtils.isEmpty(pricePhoto.getText().toString()) && flagTime) {
             StorageReference FileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(ImageUri));
@@ -368,6 +370,7 @@ public class Profile extends AppCompatActivity {
                                     map.put("DeadlineHour",Hour);
                                     map.put("DeadlineMinute",Minute);
                                     map.put("deadline",deadline);
+                                    map.put("DeleteFlag",true);
 
 
 

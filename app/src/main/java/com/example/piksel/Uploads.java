@@ -18,6 +18,7 @@ public class Uploads {
     private String HighestID = "-1";
     public CollectionReference UserRef = FirebaseFirestore.getInstance().collection("Users");
     private String deadline;
+    private Boolean DeleteFlag;
 
 
     public Uploads() {
@@ -127,6 +128,15 @@ public class Uploads {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+
+    public Boolean getDeleteFlag() {
+        return DeleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        DeleteFlag = deleteFlag;
     }
 }
 
