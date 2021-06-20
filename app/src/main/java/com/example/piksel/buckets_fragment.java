@@ -57,6 +57,7 @@ public class buckets_fragment extends Fragment{
     public ArrayList<Uploads> PhotosArray=new ArrayList<>();
     private RecyclerView recyclerView;
     private BucketOnSaleImageHolderAdapter bucketOnSaleImageHolderAdapter;
+    private ArrayList<String> key=new ArrayList<>();
 
 
 
@@ -81,6 +82,8 @@ public class buckets_fragment extends Fragment{
         UserId= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
 
+
+
         collectionReference.whereEqualTo("userID",UserId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -88,19 +91,27 @@ public class buckets_fragment extends Fragment{
                 for(QueryDocumentSnapshot documentSnapshot:queryDocumentSnapshots)
                 {
                     PhotosArray.add(documentSnapshot.toObject(Uploads.class));
+                    key.add(documentSnapshot.getId());
                 }
 
                 bucketOnSaleImageHolderAdapter=new BucketOnSaleImageHolderAdapter(PhotosArray,getContext());
                 recyclerView.setAdapter(bucketOnSaleImageHolderAdapter);
+
+                bucketOnSaleImageHolderAdapter.setBucketOnItemClickListener(new BucketOnSaleImageHolderAdapter.BucketOnItemClickListener() {
+                    @Override
+                    public void OnClick(int position) {
+                        Intent intent=new Intent(getContext(),BucketSinglePhoto.class);
+                        intent.putExtra("key",key.get(position));
+                        startActivity(intent);
+                    }
+                });
             }
         }).
                 addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @NotNull Exception e) {
-
             }
         });
-
 
         return root;
     }

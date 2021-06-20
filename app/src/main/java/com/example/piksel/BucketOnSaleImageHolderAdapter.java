@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class BucketOnSaleImageHolderAdapter extends RecyclerView.Adapter<BucketOnSaleImageHolderAdapter.BucketOnSaleImageHolder> {
 
 
+    //  bucket recycler view adapter for photos
     private ArrayList<Uploads> array;
     private Context context;
     public BucketOnItemClickListener bucketOnItemClickListener;
@@ -55,7 +56,6 @@ public class BucketOnSaleImageHolderAdapter extends RecyclerView.Adapter<BucketO
     }
 
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull @NotNull BucketOnSaleImageHolderAdapter.BucketOnSaleImageHolder holder, int position) {
 

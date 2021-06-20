@@ -4,23 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PhotoPost">
+    tools:context=".BucketSinglePhoto">
 
     <ScrollView
-        android:id="@+id/ScrollViewPhotoPost"
+        android:id="@+id/ScrollViewPhotoPost1"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/PhotoPostBiddingBelowLayout"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp">
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ProfilePhotoPhotoPost"
+                android:id="@+id/ProfilePhotoPhotoPost1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
@@ -28,44 +28,42 @@
                 android:src="@drawable/profile" />
 
             <TextView
-                android:id="@+id/USerNamePhotoPost"
+                android:id="@+id/USerNamePhotoPost1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/ProfilePhotoPhotoPost"
+                android:layout_toEndOf="@id/ProfilePhotoPhotoPost1"
                 android:text="Name here"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
-                android:id="@+id/PhotoPostDeadline"
+                android:id="@+id/PhotoPostDeadline1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/USerNamePhotoPost"
+                android:layout_below="@id/USerNamePhotoPost1"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/ProfilePhotoPhotoPost"
+                android:layout_toEndOf="@id/ProfilePhotoPhotoPost1"
                 android:text="Demo date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <ImageView
-                android:id="@+id/PhotoPhotoPost"
+                android:id="@+id/PhotoPhotoPost1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ProfilePhotoPhotoPost"
+                android:layout_below="@id/ProfilePhotoPhotoPost1"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/profile" />
 
             <LinearLayout
-                android:id="@+id/PhotoPostLinear"
+                android:id="@+id/PhotoPostLinear1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/PhotoPhotoPost"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_below="@+id/PhotoPhotoPost1">
 
                 <TextView
-                    android:id="@+id/AskedPricePhotoPost"
+                    android:id="@+id/AskedPricePhotoPost1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -76,7 +74,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
-                    android:id="@+id/HighestBidPhotoPost"
+                    android:id="@+id/HighestBidPhotoPost1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -88,10 +86,10 @@
             </LinearLayout>
 
             <ScrollView
-                android:id="@+id/PhotoPostScroll"
+                android:id="@+id/PhotoPostScroll1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/PhotoPostLinear">
+                android:layout_below="@+id/PhotoPostLinear1">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -103,7 +101,7 @@
                     app:cardCornerRadius="10dp">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/PhotoPostRecyclerView"
+                        android:id="@+id/PhotoPostRecyclerView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#E6E5E5" />
@@ -116,11 +114,5 @@
 
 
     </ScrollView>
-
-    <include layout="@layout/photobiddingbelow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/PhotoPostBiddingBelowLayout"
-        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

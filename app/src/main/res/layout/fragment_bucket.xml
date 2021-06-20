@@ -23,12 +23,12 @@
                     android:layout_width="match_parent"
                     android:background="@color/Secondary"
                     android:text="Photo On Sale"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textAlignment="center"
                     android:layout_height="wrap_content"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:background="@color/RecyclerBackground"
+                    android:background="#FFFFFF"
                     android:id="@+id/BucketOnSaleRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
