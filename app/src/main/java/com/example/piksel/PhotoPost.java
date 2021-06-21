@@ -54,6 +54,7 @@ public class PhotoPost extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PhotoPostUserAdapter photoPostUserAdapter;
     private int Year,Month,Day,Hour,Minute;
+    private String HighestBidder,WinnerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,56 +125,51 @@ public class PhotoPost extends AppCompatActivity {
                     Toast.makeText(PhotoPost.this,"Deadline expired!",Toast.LENGTH_SHORT).show();
 
 
-                    ArrayList<String> user=new ArrayList<>();
 
 
                     documentReference.collection("Bidders").orderBy("Bid", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             ArrayList<String> user=new ArrayList<>();
-                            String HighestBidder=null;
-                            final String[] WinnerName = { null };
+                            ArrayList<String> winner=new ArrayList<>();
                             for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots)
                             {
                                 user.add(queryDocumentSnapshot.getString("UserId"));
-                            }
-                            if(user.size()>0)
-                            {
-                                HighestBidder=user.get(0);
+                                winner.add(queryDocumentSnapshot.getString("Name"));
                             }
 
+                            // getting only the unique users
                             HashSet<String> unique=new HashSet<String>(user);
 
                             CollectionReference colRef=FirebaseFirestore.getInstance().collection("Users");
 
 
+                            // getting the highest bidder
+                            // and then getting its name
                             if(user.size()>0)
                             {
                                 HighestBidder=user.get(0);
-                                colRef.document(HighestBidder).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        if(documentSnapshot.exists())
-                                        {
-                                            WinnerName[0] =documentSnapshot.getString("Name");
-                                        }
-                                    }
-                                });
+                                WinnerName=winner.get(0);
                             }
+
+
+
+                            // iterating unique bidders
+                            //
 
                             for(String str:unique)
                             {
                                 Map<String,Object> map=new HashMap<>();
                                 if(str==HighestBidder)
                                 {
-                                    map.put("Notification","Congratulations!! \n You have the bidding\n Tap to view the Bidding");
+                                    map.put("message","Congratulations!! \n You have the bidding\n Tap to view the Bidding");
                                 }
                                 else
                                 {
-                                    map.put("Notification",WinnerName[0]+" has won the bidding auction.\n Tap to view the Bidding");
+                                    map.put("message",WinnerName+" has won the bidding auction.\n Tap to view the Bidding");
                                 }
-                                map.put("Index",System.currentTimeMillis());
-                                colRef.document(str).collection("Notification").document().set(map);
+                                map.put("index",System.currentTimeMillis());
+                                colRef.document(str).collection("Notifications").document().set(map);
                             }
                         }
                     });
@@ -215,7 +211,7 @@ public class PhotoPost extends AppCompatActivity {
     }
 
 
-    //  setting the bidders bidding info in the scrollview's recyclerview
+    //  setting the bidders bidding info in the scrollview s recyclerview
 
     private void setBiddersData() {
         ArrayList<PhotoPostBidder> bidder=new ArrayList<>();
