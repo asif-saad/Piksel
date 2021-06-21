@@ -7,10 +7,18 @@
     android:elevation="10dp">
 
     <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
         android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:title="Photo Library" />
+
+    <ImageView
+        android:id="@+id/ToolbarNotification"
+        android:layout_width="30dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_toStartOf="@id/Toolbar_Profile"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/notification" />
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -21,20 +29,21 @@
         android:layout_marginBottom="5dp"
         android:layout_toStartOf="@id/LogoutToolbar"
         android:clickable="true"
-        android:src="@drawable/profile"
-        android:focusable="true" />
+        android:focusable="true"
+        android:src="@drawable/profile" />
 
     <ImageView
-        android:layout_width="35dp"
-        android:src="@drawable/exit"
         android:id="@+id/LogoutToolbar"
-        android:layout_marginStart="20dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:focusable="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:clickable="true"
-        android:layout_height="wrap_content"/>
+        android:focusable="true"
+        android:src="@drawable/exit" />
 
 
 </RelativeLayout>

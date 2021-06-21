@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,6 +64,8 @@ public class PhotoPost extends AppCompatActivity {
         String key = getIntent().getStringExtra("KeyId");
         documentReference = FirebaseFirestore.getInstance().collection("Photos").document(key);
         UserId= FirebaseAuth.getInstance().getUid();
+
+
         FirebaseFirestore.getInstance().collection("Users").document(UserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -118,6 +122,62 @@ public class PhotoPost extends AppCompatActivity {
                 {
                     documentReference.update("DeleteFlag",false);
                     Toast.makeText(PhotoPost.this,"Deadline expired!",Toast.LENGTH_SHORT).show();
+
+
+                    ArrayList<String> user=new ArrayList<>();
+
+
+                    documentReference.collection("Bidders").orderBy("Bid", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            ArrayList<String> user=new ArrayList<>();
+                            String HighestBidder=null;
+                            final String[] WinnerName = { null };
+                            for(QueryDocumentSnapshot queryDocumentSnapshot:queryDocumentSnapshots)
+                            {
+                                user.add(queryDocumentSnapshot.getString("UserId"));
+                            }
+                            if(user.size()>0)
+                            {
+                                HighestBidder=user.get(0);
+                            }
+
+                            HashSet<String> unique=new HashSet<String>(user);
+
+                            CollectionReference colRef=FirebaseFirestore.getInstance().collection("Users");
+
+
+                            if(user.size()>0)
+                            {
+                                HighestBidder=user.get(0);
+                                colRef.document(HighestBidder).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if(documentSnapshot.exists())
+                                        {
+                                            WinnerName[0] =documentSnapshot.getString("Name");
+                                        }
+                                    }
+                                });
+                            }
+
+                            for(String str:unique)
+                            {
+                                Map<String,Object> map=new HashMap<>();
+                                if(str==HighestBidder)
+                                {
+                                    map.put("Notification","Congratulations!! \n You have the bidding\n Tap to view the Bidding");
+                                }
+                                else
+                                {
+                                    map.put("Notification",WinnerName[0]+" has won the bidding auction.\n Tap to view the Bidding");
+                                }
+                                map.put("Index",System.currentTimeMillis());
+                                colRef.document(str).collection("Notification").document().set(map);
+                            }
+                        }
+                    });
+
                 }
                 else if(Integer.parseInt(BidPrice.getText().toString().trim())>Integer.parseInt(highestBid))
                 {
@@ -154,6 +214,9 @@ public class PhotoPost extends AppCompatActivity {
 
     }
 
+
+    //  setting the bidders bidding info in the scrollview's recyclerview
+
     private void setBiddersData() {
         ArrayList<PhotoPostBidder> bidder=new ArrayList<>();
 
@@ -174,6 +237,11 @@ public class PhotoPost extends AppCompatActivity {
         });
 
     }
+
+
+
+
+    //  getting the name of month by passing their numerical order in the year
 
     private String getMonth(int month)
     {

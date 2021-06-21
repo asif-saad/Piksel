@@ -14,22 +14,23 @@
         android:src="@drawable/arrow_back" />
 
     <androidx.appcompat.widget.Toolbar
-        android:layout_toEndOf="@id/BackArrow"
         android:id="@+id/Toolbar2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_toEndOf="@id/BackArrow"
         app:title="Profile" />
 
     <ImageView
-        android:layout_width="35dp"
-        android:src="@drawable/exit"
         android:id="@+id/LogoutToolbar1"
-        android:layout_marginStart="20dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:focusable="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
         android:clickable="true"
-        android:layout_height="wrap_content"/>
+        android:focusable="true"
+        android:src="@drawable/exit" />
 
 </RelativeLayout>

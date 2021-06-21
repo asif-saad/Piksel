@@ -28,6 +28,7 @@ public class Start_activity extends AppCompatActivity{
     private CircleImageView profile;
     private Toolbar toolbar;
     private ImageView LogoutImage;
+    private ImageView Notification;
 
 
 
@@ -40,6 +41,8 @@ public class Start_activity extends AppCompatActivity{
         profile=findViewById(R.id.Toolbar_Profile);
         toolbar=findViewById(R.id.Toolbar);
         LogoutImage=findViewById(R.id.LogoutToolbar);
+        Notification=findViewById(R.id.ToolbarNotification);
+
 
 
         BottomNavigationView bottomNav=findViewById(R.id.BottomNavigationBar);
@@ -70,6 +73,14 @@ public class Start_activity extends AppCompatActivity{
 
 
 
+
+
+        Notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Start_activity.this,Notification.class));
+            }
+        });
 
     }
 
