@@ -52,7 +52,6 @@ public class PhotoPost extends AppCompatActivity {
     private TextView Deadline;
     private String Name,UserId,Time;
     private RecyclerView recyclerView;
-    private PhotoPostUserAdapter photoPostUserAdapter;
     private int Year,Month,Day,Hour,Minute;
     private String HighestBidder,WinnerName;
 
@@ -162,13 +161,15 @@ public class PhotoPost extends AppCompatActivity {
                                 Map<String,Object> map=new HashMap<>();
                                 if(str==HighestBidder)
                                 {
-                                    map.put("message","Congratulations!! \n You have the bidding\n Tap to view the Bidding");
+                                    map.put("message","Congratulations!! You have the bidding. Tap to view the Bidding");
                                 }
                                 else
                                 {
-                                    map.put("message",WinnerName+" has won the bidding auction.\n Tap to view the Bidding");
+                                    map.put("message",WinnerName+" has won the bidding auction. Tap to view the Bidding");
                                 }
                                 map.put("index",System.currentTimeMillis());
+                                //map.put("timestamp",Timestamp.now());
+                                map.put("PhotoId",key);
                                 colRef.document(str).collection("Notifications").document().set(map);
                             }
                         }

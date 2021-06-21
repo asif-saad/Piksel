@@ -55,6 +55,7 @@
             android:elevation="15dp"
             android:id="@+id/Signup"
             android:text="Sign up"
+            android:textColor="#000000"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 

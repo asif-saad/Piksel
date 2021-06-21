@@ -14,10 +14,23 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>{
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    private ArrayList<UserNotification> Notification=new ArrayList<>();
+    private ArrayList<UserNotification> Notification = new ArrayList<>();
     private Context context;
+    public OnItemClickListener onItemClickListener;
+
+
+    public interface OnItemClickListener
+    {
+        void OnClick(int position);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener)
+    {
+        this.onItemClickListener=onItemClickListener;
+    }
 
     public NotificationAdapter(ArrayList<UserNotification> notification, Context context) {
         Notification = notification;
@@ -50,6 +63,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public NotificationViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             message=itemView.findViewById(R.id.NotificationText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onItemClickListener!=null)
+                    {
+                        int position=getAdapterPosition();
+                        onItemClickListener.OnClick(position);
+                    }
+                }
+            });
         }
     }
 }

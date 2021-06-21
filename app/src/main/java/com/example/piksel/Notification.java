@@ -58,6 +58,14 @@ public class Notification extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(Notification.this));
                 NotificationAdapter notificationAdapter=new NotificationAdapter(array,Notification.this);
                 recyclerView.setAdapter(notificationAdapter);
+                notificationAdapter.setOnItemClickListener(new NotificationAdapter.OnItemClickListener() {
+                    @Override
+                    public void OnClick(int position) {
+                        Intent intent=new Intent(Notification.this,BucketSinglePhoto.class);
+                        intent.putExtra("key", array.get(position).getPhotoId());
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
